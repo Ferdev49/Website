@@ -1,70 +1,167 @@
-# Getting Started with Create React App
+# Portfolio - DevOps & Cloud Engineer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Mi portfolio profesional como Junior DevOps & Cloud Engineer, construido con React, desplegado en AWS y automatizado con GitHub Actions.
 
-## Available Scripts
+**URL:** https://dymxousj4rhos.cloudfront.net
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🏗️ Stack Tecnológico
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Categoría | Tecnología |
+|-----------|-----------|
+| **Frontend** | React, Tailwind CSS |
+| **Hosting** | AWS S3 + CloudFront CDN |
+| **Infrastructure** | Terraform (IaC) |
+| **CI/CD** | GitHub Actions |
+| **Version Control** | Git & GitHub |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🚀 Características
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- ✅ **Responsive Design**: Mobile-first, funciona en cualquier dispositivo
+- ✅ **Dark Theme + Neon Accents**: Diseño moderno y profesional
+- ✅ **CDN Global**: Contenido servido desde el servidor más cercano
+- ✅ **HTTPS Seguro**: SSL/TLS con AWS Certificate Manager
+- ✅ **Despliegue Automático**: Push a GitHub = Auto-deploy a producción
+- ✅ **Infrastructure as Code**: Todo definido en Terraform
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📂 Estructura del Proyecto
+```text
+portfolio-website/              # React app
+├── src/
+│   ├── App.jsx               # Componente principal
+│   └── (componentes)
+├── public/
+├── .github/workflows/
+│   └── deploy.yml            # GitHub Actions CI/CD
+└── package.json
+portfolio-terraform/           # Infrastructure as Code
+├── providers.tf              # Configuración de AWS
+├── variables.tf              # Variables
+├── s3.tf                     # S3 bucket configuration
+├── cloudfront.tf             # CloudFront distribution
+└── outputs.tf                # Outputs
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🔄 Flujo de Despliegue (CI/CD)
 
-### `npm run eject`
+git push origin main
+↓
+GitHub Actions se dispara
+↓
+npm install & npm run build
+↓
+aws s3 sync (sube a S3)
+↓
+cloudfront create-invalidation (limpia caché)
+↓
+Sitio actualizado en vivo ✅
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Tiempo total:** ~45 segundos
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 💰 Costo Mensual
 
-## Learn More
+| Servicio | Costo |
+|----------|-------|
+| S3 Storage & Requests | $0.14 |
+| CloudFront | $0.57 |
+| **Total** | **~$0.71/mes** |
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+*Primeros 12 meses: GRATIS con AWS Free Tier*
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## 🛠️ Cómo usar este repositorio
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### **Hacer cambios localmente:**
 
-### Analyzing the Bundle Size
+```bash
+# Clonar
+git clone https://github.com/Ferdev49/portfolio-website.git
+cd portfolio-website
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Instalar dependencias
+npm install
 
-### Making a Progressive Web App
+# Desarrollo local
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Build para producción
+npm run build
+```
 
-### Advanced Configuration
+### **Desplegar cambios:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+# Editar código
+git add .
+git commit -m "Update portfolio"
+git push origin main
 
-### Deployment
+# GitHub Actions hace el resto automáticamente ✅
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### **Modificar infraestructura (AWS):**
 
-### `npm run build` fails to minify
+```bash
+cd portfolio-terraform
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Ver cambios
+terraform plan
+
+# Aplicar cambios
+terraform apply
+```
+
+---
+
+## 📊 Secciones del Portfolio
+
+- **Hero**: Presentación con CTA buttons
+- **About**: Mi historia como DevOps engineer
+- **Skills**: Tecnologías (Cloud, DevOps, Development)
+- **Projects**: 3 proyectos destacados con links a GitHub
+- **Contact**: Email, LinkedIn, GitHub
+
+---
+
+## 🎓 Aprendizajes Clave
+
+Este proyecto demuestra:
+
+- ✅ Frontend moderno con React + Tailwind
+- ✅ AWS services (S3, CloudFront, IAM)
+- ✅ Infrastructure as Code con Terraform
+- ✅ CI/CD automation con GitHub Actions
+- ✅ Git workflow profesional
+- ✅ Security best practices (OAI, bucket policies, least privilege)
+
+---
+
+## 📝 Notas
+
+- Portfolio actualizable sin downtime
+- Todos los cambios versionados en Git
+- Infraestructura reproducible y auditable
+- Costo mínimo (~$9/año)
+
+---
+
+## 📞 Contacto
+
+- **Email:** fercho00.fb@gmail.com
+- **LinkedIn:** fbecerrildev
+- **GitHub:** Ferdev49
+
+---
+
+**Built with React, Terraform, and GitHub Actions** 🚀
