@@ -44,7 +44,7 @@ jobs:
       # 7. Invalidate CloudFront cache
       - name: Invalidate CloudFront cache                                           
         run: |
-          aws cloudfront create-invalidation --distribution-id E2JJ2LW9NUYS87L --paths "/*"
+          aws cloudfront create-invalidation --distribution-id E2J2LW9NUYS87L --paths "/*"
 
       # 8. Success message
       - name: Deployment successful
