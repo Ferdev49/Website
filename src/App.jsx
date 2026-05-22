@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Mail, ExternalLink, ChevronDown, Github, Linkedin } from 'lucide-react';
+import { Menu, X, ExternalLink, ChevronDown, Github } from 'lucide-react';
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
