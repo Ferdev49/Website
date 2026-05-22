@@ -87,8 +87,20 @@ export default function App() {
             <span className="font-bold text-cyan-400">Fer Becerril</span>
           </div>
           <div className="hidden md:flex gap-8">
-            {['Home', 'About', 'Skills', 'Projects', 'Contact'].map(item => (
-              <button key={item} className="text-gray-300 hover:text-cyan-400 transition">{item}</button>
+            {[
+              { name: 'Home', id: 'home' },
+              { name: 'About', id: 'about' },
+              { name: 'Skills', id: 'skills' },
+              { name: 'Projects', id: 'projects' },
+              { name: 'Contact', id: 'contact' }
+            ].map(item => (
+              <button 
+                key={item.id}
+                onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-300 hover:text-cyan-400 transition"
+              >
+                {item.name}
+              </button>
             ))}
           </div>
           <button className="md:hidden text-cyan-400" onClick={() => setMenuOpen(!menuOpen)}>
