@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ExternalLink, ChevronDown, Github } from 'lucide-react';
-
+ 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [stats, setStats] = useState({ days: 0, projects: 0, certs: 0 });
-
+  const [formStatus, setFormStatus] = useState('');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [visibleElements, setVisibleElements] = useState({});
+ 
   // Animated stats counter
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,7 +20,54 @@ export default function App() {
     }, 50);
     return () => clearInterval(interval);
   }, []);
-
+ 
+  // Scroll animations (Intersection Observer)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setVisibleElements(prev => ({
+              ...prev,
+              [entry.target.id]: true
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+ 
+    document.querySelectorAll('[data-animate]').forEach(el => {
+      observer.observe(el);
+    });
+ 
+    return () => observer.disconnect();
+  }, []);
+ 
+  // Handle form submission
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus('sending');
+ 
+    try {
+      const response = await fetch('https://formspree.io/f/mgoqkqzb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+ 
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setFormStatus(''), 5000);
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      setFormStatus('error');
+    }
+  };
+ 
   const projects = [
     {
       id: 1,
@@ -53,7 +103,7 @@ export default function App() {
       features: ['5 workflows', '18+ test cases', '100% pass rate', 'Auto-deployment', 'Artifact registry']
     }
   ];
-
+ 
   const aboutTimeline = [
     {
       year: '2023',
@@ -76,7 +126,7 @@ export default function App() {
       desc: 'Implementing automated deployments with GitHub Actions. Ready to contribute to DevOps teams.'
     }
   ];
-
+ 
   return (
     <div className="bg-slate-950 text-white">
       {/* NAV */}
@@ -108,7 +158,7 @@ export default function App() {
           </button>
         </div>
       </nav>
-
+ 
       {/* HERO */}
       <section id="home" className="min-h-screen pt-20 flex items-center justify-center relative">
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
@@ -131,27 +181,27 @@ export default function App() {
               </div>
             ))}
           </div>
-
+ 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <button className="px-8 py-3 bg-gradient-to-r from-cyan-400 to-lime-400 text-slate-950 font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50">View Projects</button>
-            <button className="px-8 py-3 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400/10">Contact Me</button>
+            <button onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} className="px-8 py-3 bg-gradient-to-r from-cyan-400 to-lime-400 text-slate-950 font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50">View Projects</button>
+            <button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="px-8 py-3 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400/10">Contact Me</button>
           </div>
-
+ 
           <div className="animate-bounce">
             <ChevronDown className="text-cyan-400 mx-auto" size={32} />
           </div>
         </div>
       </section>
-
+ 
       {/* ABOUT - EXPANDED */}
       <section id="about" className="py-20 bg-slate-900/50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-5xl font-bold mb-4 text-center bg-gradient-to-r from-cyan-400 to-lime-400 bg-clip-text text-transparent">About Me</h2>
           <p className="text-gray-400 text-center mb-12">My journey from retail operations to DevOps engineering</p>
-
+ 
           <div className="grid md:grid-cols-2 gap-12 mb-16">
             {/* Left: Story */}
-            <div className="space-y-6">
+            <div data-animate id="about-story" className={`space-y-6 transition-all duration-700 ${visibleElements['about-story'] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <p className="text-gray-300 text-lg leading-relaxed">
                 I started my career in retail operations, managing inventory systems and customer service for 3+ years. But I realized my true passion was <span className="text-cyan-400 font-semibold">building systems that scale</span>.
               </p>
@@ -161,7 +211,7 @@ export default function App() {
               <p className="text-gray-300 text-lg leading-relaxed">
                 My philosophy: <span className="text-lime-400 font-semibold">Understand deeply, build pragmatically, automate fearlessly.</span>
               </p>
-
+ 
               {/* Core Values */}
               <div className="mt-8 space-y-3">
                 <h3 className="text-xl font-semibold text-cyan-400">Core Values</h3>
@@ -178,9 +228,9 @@ export default function App() {
                 ))}
               </div>
             </div>
-
+ 
             {/* Right: Timeline */}
-            <div className="space-y-6">
+            <div data-animate id="about-timeline" className={`space-y-6 transition-all duration-700 ${visibleElements['about-timeline'] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <h3 className="text-xl font-semibold text-cyan-400 mb-6">My Journey</h3>
               {aboutTimeline.map((item, i) => (
                 <div key={i} className="relative pl-6 pb-6 border-l-2 border-cyan-400/30 last:pb-0">
@@ -194,9 +244,9 @@ export default function App() {
               ))}
             </div>
           </div>
-
+ 
           {/* Skills Section */}
-          <div className="bg-slate-800/30 p-8 rounded-xl border border-cyan-400/20">
+          <div data-animate id="about-skills" className={`bg-slate-800/30 p-8 rounded-xl border border-cyan-400/20 transition-all duration-700 ${visibleElements['about-skills'] ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
             <h3 className="text-2xl font-bold text-cyan-400 mb-6">What I Do</h3>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -214,7 +264,7 @@ export default function App() {
           </div>
         </div>
       </section>
-
+ 
       {/* SKILLS */}
       <section id="skills" className="py-20">
         <div className="max-w-6xl mx-auto px-4">
@@ -225,7 +275,7 @@ export default function App() {
               { title: 'DevOps & Automation', skills: ['GitHub Actions', 'CI/CD Pipelines', 'Monitoring & Logging', 'API Management', 'Security Best Practices'] },
               { title: 'Development', skills: ['Python & Pytest', 'Git & GitHub', 'SQL Basics', 'REST APIs', 'System Design'] }
             ].map((cat, i) => (
-              <div key={i} className="p-6 rounded-xl border border-cyan-400/30 bg-slate-900/50 hover:border-cyan-400 transition">
+              <div key={i} data-animate id={`skill-${i}`} className={`p-6 rounded-xl border border-cyan-400/30 bg-slate-900/50 hover:border-cyan-400 transition-all duration-700 ${visibleElements[`skill-${i}`] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <h3 className="text-xl font-bold text-cyan-400 mb-4">{cat.title}</h3>
                 <div className="space-y-2">
                   {cat.skills.map((s, j) => (
@@ -240,14 +290,14 @@ export default function App() {
           </div>
         </div>
       </section>
-
+ 
       {/* PROJECTS - DYNAMIC */}
       <section id="projects" className="py-20 bg-slate-900/50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-5xl font-bold mb-16 text-center bg-gradient-to-r from-cyan-400 to-lime-400 bg-clip-text text-transparent">Featured Projects</h2>
           <div className="space-y-8">
-            {projects.map((p) => (
-              <div key={p.id} className="p-8 rounded-xl border border-cyan-400/30 bg-slate-900/50 hover:border-cyan-400 transition cursor-pointer" onClick={() => setSelectedProject(p)}>
+            {projects.map((p, idx) => (
+              <div key={p.id} data-animate id={`project-${p.id}`} className={`p-8 rounded-xl border border-cyan-400/30 bg-slate-900/50 hover:border-cyan-400 transition-all duration-700 cursor-pointer ${visibleElements[`project-${p.id}`] ? 'opacity-100 translate-x-0' : 'opacity-0 ' + (idx % 2 === 0 ? '-translate-x-10' : 'translate-x-10')}`} onClick={() => setSelectedProject(p)}>
                 <div className="grid md:grid-cols-3 gap-8 items-start">
                   <div className="md:col-span-2">
                     <div className="flex items-start justify-between mb-4">
@@ -273,18 +323,18 @@ export default function App() {
           </div>
         </div>
       </section>
-
+ 
       {/* PROJECT MODAL */}
       {selectedProject && (
         <div className="fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4" onClick={() => setSelectedProject(null)}>
-          <div className="bg-slate-900 rounded-xl border border-cyan-400/30 max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8" onClick={e => e.stopPropagation()}>
+          <div className="bg-slate-900 rounded-xl border border-cyan-400/30 max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 animate-in fade-in zoom-in-95" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-3xl font-bold text-cyan-400">{selectedProject.title}</h2>
               <button onClick={() => setSelectedProject(null)} className="text-gray-400 hover:text-white">✕</button>
             </div>
-
+ 
             <p className="text-gray-300 mb-6 leading-relaxed">{selectedProject.fullDesc}</p>
-
+ 
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-cyan-400 mb-3">Key Features</h3>
               <ul className="space-y-2">
@@ -296,7 +346,7 @@ export default function App() {
                 ))}
               </ul>
             </div>
-
+ 
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-cyan-400 mb-3">Tech Stack</h3>
               <div className="flex flex-wrap gap-2">
@@ -305,7 +355,7 @@ export default function App() {
                 ))}
               </div>
             </div>
-
+ 
             <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-400 to-lime-400 text-slate-950 font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50">
               <Github size={20} />
               Open on GitHub
@@ -313,31 +363,89 @@ export default function App() {
           </div>
         </div>
       )}
-
+ 
       {/* CONTACT */}
       <section id="contact" className="py-20">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-5xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-lime-400 bg-clip-text text-transparent">Let's Connect</h2>
-          <p className="text-xl text-gray-300 mb-12">Open to opportunities, collaborations, and technical discussions</p>
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 data-animate id="contact-title" className={`text-5xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 to-lime-400 bg-clip-text text-transparent transition-all duration-700 ${visibleElements['contact-title'] ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>Let's Connect</h2>
+          <p data-animate id="contact-desc" className={`text-xl text-gray-300 mb-12 text-center transition-all duration-700 ${visibleElements['contact-desc'] ? 'opacity-100' : 'opacity-0'}`}>Open to opportunities, collaborations, and technical discussions</p>
+ 
+          {/* Contact Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             {[
               { icon: '✉️', label: 'Email', val: 'fercho00.fb@gmail.com', href: 'mailto:fercho00.fb@gmail.com' },
               { icon: '💼', label: 'LinkedIn', val: 'fbecerrildev', href: 'https://linkedin.com/in/fbecerrildev' },
               { icon: '🐙', label: 'GitHub', val: 'Ferdev49', href: 'https://github.com/Ferdev49' }
             ].map((c, i) => (
-              <a key={i} href={c.href} target="_blank" rel="noopener noreferrer" className="p-6 rounded-xl border border-cyan-400/30 bg-slate-900/50 hover:border-cyan-400 hover:bg-slate-900/80 transition">
+              <a key={i} data-animate id={`contact-${i}`} href={c.href} target="_blank" rel="noopener noreferrer" className={`p-6 rounded-xl border border-cyan-400/30 bg-slate-900/50 hover:border-cyan-400 hover:bg-slate-900/80 transition-all duration-700 ${visibleElements[`contact-${i}`] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="text-4xl mb-4">{c.icon}</div>
                 <h3 className="font-bold text-white mb-2">{c.label}</h3>
                 <p className="text-gray-400 text-sm">{c.val}</p>
               </a>
             ))}
           </div>
-          <a href="mailto:fercho00.fb@gmail.com" className="inline-block px-12 py-4 bg-gradient-to-r from-cyan-400 to-lime-400 text-slate-950 font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50">
-            Send me an Email
-          </a>
+ 
+          {/* Contact Form */}
+          <div data-animate id="contact-form-box" className={`bg-slate-800/50 p-8 rounded-xl border border-cyan-400/30 transition-all duration-700 ${visibleElements['contact-form-box'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h3 className="text-2xl font-bold text-cyan-400 mb-6">Send me a Message</h3>
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  required
+                  className="w-full px-4 py-2 bg-slate-900 border border-cyan-400/30 rounded-lg text-white focus:border-cyan-400 outline-none transition"
+                  placeholder="Your name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  required
+                  className="w-full px-4 py-2 bg-slate-900 border border-cyan-400/30 rounded-lg text-white focus:border-cyan-400 outline-none transition"
+                  placeholder="your@email.com"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">Message</label>
+                <textarea
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  required
+                  rows="4"
+                  className="w-full px-4 py-2 bg-slate-900 border border-cyan-400/30 rounded-lg text-white focus:border-cyan-400 outline-none transition resize-none"
+                  placeholder="Your message..."
+                />
+              </div>
+ 
+              {formStatus === 'success' && (
+                <div className="p-3 bg-lime-400/20 border border-lime-400 text-lime-400 rounded-lg">
+                  ✅ Message sent successfully!
+                </div>
+              )}
+              {formStatus === 'error' && (
+                <div className="p-3 bg-red-400/20 border border-red-400 text-red-400 rounded-lg">
+                  ❌ Error sending message. Please try again.
+                </div>
+              )}
+ 
+              <button
+                type="submit"
+                disabled={formStatus === 'sending'}
+                className="w-full px-6 py-3 bg-gradient-to-r from-cyan-400 to-lime-400 text-slate-950 font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 disabled:opacity-50 transition"
+              >
+                {formStatus === 'sending' ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
+          </div>
         </div>
       </section>
-
+ 
       {/* FOOTER */}
       <footer className="py-8 text-center text-gray-500 border-t border-cyan-400/20">
         <p>© 2026 Fer Becerril. Built with React & Terraform.</p>
