@@ -14,7 +14,7 @@ export default function App() {
     const interval = setInterval(() => {
       setStats(prev => ({
         days: prev.days < 35 ? prev.days + 1 : 35,
-        projects: prev.projects < 3 ? prev.projects + 1 : 3,
+        projects: prev.projects < 9 ? prev.projects + 1 : 9,
         certs: prev.certs < 1 ? prev.certs + 1 : 1,
       }));
     }, 50);
@@ -101,6 +101,72 @@ export default function App() {
       metricLabel: 'Pipeline Time',
       link: 'https://github.com/Ferdev49/devops-lab/tree/main/projects/project3-cicd-pipeline',
       features: ['5 workflows', '18+ test cases', '100% pass rate', 'Auto-deployment', 'Artifact registry']
+    },
+    {
+      id: 4,
+      title: 'Docker Multi-Container',
+      desc: 'Full-stack app con Flask + React + PostgreSQL orquestada con Docker Compose en entorno local y producción.',
+      fullDesc: 'Implementé una arquitectura multi-contenedor con Docker Compose integrando un backend Flask (Python), frontend React y base de datos PostgreSQL. Configuré redes internas entre servicios, volúmenes persistentes para la base de datos, variables de entorno seguras y un reverse proxy con Nginx. El entorno se replica idénticamente en local y producción, eliminando el clásico "works on my machine".',
+      techs: ['Docker', 'Docker Compose', 'Flask', 'React', 'PostgreSQL', 'Nginx'],
+      metric: '✅',
+      metricLabel: 'Completado',
+      link: 'https://https://github.com/Ferdev49/Docker-compose',
+      features: ['3 servicios orquestados', 'Redes Docker internas', 'Volúmenes persistentes', 'Reverse proxy Nginx', 'Variables de entorno seguras']
+    },
+    {
+      id: 5,
+      title: 'Terraform VPC',
+      desc: 'Infraestructura de red AWS completa definida como código con subnets públicas/privadas, NAT Gateway e Internet Gateway.',
+      fullDesc: 'Diseñé y desplegué una VPC de producción en AWS usando Terraform como IaC. La arquitectura incluye subnets públicas y privadas distribuidas en múltiples AZs, NAT Gateway para salida segura de recursos privados, Internet Gateway, Route Tables y Security Groups. El módulo es reutilizable y parametrizable, siguiendo las mejores prácticas de infraestructura como código.',
+      techs: ['Terraform', 'AWS VPC', 'AWS Networking', 'IaC', 'Multi-AZ'],
+      metric: '✅',
+      metricLabel: 'Completado',
+      link: 'https://github.com/Ferdev49/proyecto5-terraform-vpc',
+      features: ['VPC con subnets multi-AZ', 'NAT Gateway & IGW', 'Route Tables configuradas', 'Security Groups', 'Código Terraform modular']
+    },
+    {
+      id: 6,
+      title: 'ECS Fargate + ALB',
+      desc: 'Contenedores serverless en AWS ECS Fargate con Application Load Balancer y auto-scaling automático.',
+      fullDesc: 'Desplegué contenedores en AWS ECS Fargate eliminando la gestión de servidores EC2. La arquitectura incluye un Application Load Balancer para distribución de tráfico, Task Definitions, ECS Services con auto-scaling basado en CPU/memoria, ECR para el registry de imágenes y CloudWatch para logs y métricas. Infraestructura completamente serverless y altamente disponible.',
+      techs: ['AWS ECS', 'Fargate', 'ALB', 'ECR', 'CloudWatch', 'Auto Scaling'],
+      metric: '✅',
+      metricLabel: 'Completado',
+      link: 'https://github.com/Ferdev49/proyecto6-ecs-fargate-alb',
+      features: ['Contenedores serverless', 'Load Balancer configurado', 'Auto-scaling ECS', 'ECR image registry', 'Logs en CloudWatch']
+    },
+    {
+      id: 7,
+      title: 'Serverless Website',
+      desc: 'Sitio web estático con hosting en S3, CDN global con CloudFront y funciones Lambda en el edge.',
+      fullDesc: 'Construí una arquitectura serverless completa para hosting web con S3 como almacenamiento estático, CloudFront como CDN global para baja latencia en todo el mundo, certificado SSL/TLS con AWS Certificate Manager y Lambda@Edge para lógica en el edge. La arquitectura tiene costo casi cero en reposo y escala automáticamente a millones de peticiones.',
+      techs: ['AWS S3', 'CloudFront', 'Lambda', 'ACM', 'Route 53', 'Serverless'],
+      metric: '✅',
+      metricLabel: 'Completado',
+      link: 'https://github.com/Ferdev49/proyecto7-serverless-website',
+      features: ['Hosting S3 estático', 'CDN CloudFront global', 'SSL/TLS con ACM', 'Lambda@Edge', 'Alta disponibilidad']
+    },
+    {
+      id: 8,
+      title: 'RDS Aurora MySQL',
+      desc: 'Base de datos Aurora MySQL en AWS con Multi-AZ, réplicas de lectura y backups automáticos.',
+      fullDesc: 'Implementé un cluster de Amazon Aurora MySQL con configuración Multi-AZ para alta disponibilidad y failover automático. Configuré réplicas de lectura para distribuir la carga de consultas, backups automáticos con retención de 7 días, cifrado en reposo con KMS, y parámetros de performance optimizados. La base de datos es accesible solo desde subnets privadas a través de Security Groups restrictivos.',
+      techs: ['AWS RDS', 'Aurora MySQL', 'Multi-AZ', 'KMS', 'VPC', 'Terraform'],
+      metric: '✅',
+      metricLabel: 'Completado',
+      link: 'https://github.com/Ferdev49/proyecto8-rds-aurora',
+      features: ['Aurora MySQL Multi-AZ', 'Réplicas de lectura', 'Backups automáticos', 'Cifrado con KMS', 'Acceso solo desde VPC privada']
+    },
+    {
+      id: 9,
+      title: 'Monitoring & Alerts',
+      desc: 'Sistema de monitoreo y alertas con CloudWatch, SNS y EventBridge para infraestructura AWS completa.',
+      fullDesc: 'Diseñé un sistema de observabilidad completo para infraestructura AWS usando CloudWatch para métricas y logs, SNS para notificaciones multi-canal (email, SMS, Slack), EventBridge para automatización de eventos y respuesta a incidentes. Incluye dashboards personalizados, alarmas por umbrales de CPU/memoria/latencia y runbooks automatizados para respuesta a alertas críticas.',
+      techs: ['CloudWatch', 'SNS', 'EventBridge', 'AWS Lambda', 'Dashboards', 'Alerting'],
+      metric: '✅',
+      metricLabel: 'Completado',
+      link: 'https://github.com/Ferdev49/proyecto9-monitoring-alerting',
+      features: ['Dashboards CloudWatch', 'Alarmas multi-métrica', 'Notificaciones SNS', 'Automatización EventBridge', 'Runbooks de incidentes']
     }
   ];
  
