@@ -88,9 +88,12 @@ const projects = [
 const scroll = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
 export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState(''); // '' | 'sending' | 'success' | 'error'
+
+  const navTo = (id) => { scroll(id); setMenuOpen(false); };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -121,7 +124,7 @@ export default function App() {
           <div className="logo-bg">FB</div>
           <span>Fer Becerril</span>
         </div>
-        <ul>
+        <ul className={menuOpen ? 'open' : ''}>
           {[
             { label: 'Home',     id: 'home' },
             { label: 'About',    id: 'about' },
@@ -130,10 +133,17 @@ export default function App() {
             { label: 'Contact',  id: 'contact' },
           ].map(({ label, id }) => (
             <li key={id}>
-              <button className="nav-btn" onClick={() => scroll(id)}>{label}</button>
+              <button className="nav-btn" onClick={() => navTo(id)}>{label}</button>
             </li>
           ))}
         </ul>
+        <button
+          className="menu-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? '✕' : '☰'}
+        </button>
       </nav>
 
       {/* ── Hero ── */}
