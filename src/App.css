@@ -264,7 +264,7 @@ footer { padding: 2rem 5%; text-align: center; border-top: 1px solid rgba(34, 19
 
 /* ── Hamburger menu (mobile only) ── */
 @media (max-width: 640px) {
-  nav { padding: 1rem 5%; position: relative; }
+  nav { padding: 1rem 5%; }
   .menu-toggle { display: block; }
 
   nav ul {
