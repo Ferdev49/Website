@@ -1,5 +1,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html { scroll-padding-top: 72px; }
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background: linear-gradient(135deg, #0f172a 0%, #1a2340 100%);
@@ -11,9 +13,10 @@ body {
 /* ── Navigation ── */
 nav {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 1.5rem 5%; background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(10px); border-bottom: 1px solid rgba(34, 197, 94, 0.1);
-  position: sticky; top: 0; z-index: 100;
+  padding: 1.5rem 5%; background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px); border-bottom: 1px solid rgba(34, 197, 94, 0.1);
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 700; color: #22c55e; }
 .logo-bg {
@@ -36,7 +39,7 @@ nav ul { display: flex; list-style: none; gap: 2rem; }
 .hero {
   min-height: 100vh; display: flex; flex-direction: column;
   justify-content: center; align-items: center;
-  text-align: center; padding: 2rem 5%; position: relative; overflow: hidden;
+  text-align: center; padding: 2rem 5%; padding-top: calc(2rem + 72px); position: relative; overflow: hidden;
 }
 .hero::before {
   content: ''; position: absolute; width: 500px; height: 500px;
